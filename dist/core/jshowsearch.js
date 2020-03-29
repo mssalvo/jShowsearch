@@ -38,7 +38,7 @@
  *                                                                 se non indicato ed e' presente un templateButton, questo verra' incluso come ultimo elemento nel boxhome.
  *     template:        |STRING HTML | ID ELEMENTO | OBJECT HTML | OBBLIGATORIO | indicare l'elemento html o la stringa che descrive la struttura html del template
  *     templateButton:  |STRING HTML | ID ELEMENTO | OBJECT HTML | FACOLTATIVO  | indicare l'elemento html o la stringa che descrive la struttura html del button rimuvi tutti
- *     esclude:         |STRING    | ARRAY  | FACOLTATIVO | esclude dalla lista degli elementi, gli elementi indicati con il valore id (nota:valore senza cancelletto[#]), 
+ *     esclude:         |STRING    | ARRAY  | FACOLTATIVO | esclude dalla lista degli elementi gli elementi indicati dall'id, 
  *                                                          gli elementi esclusi non verranno processati
  *     offEvent:        |BOOLEAN TRUE/FALSE | FACOLTATIVO | (false)abilita / (true)disabilita gli eventi sui campi del form                                            
  *     click:           |FUNCTION | FACOLTATIVO | Esegue la funzione su ogni elemento con marcatore {click} 
@@ -95,6 +95,7 @@ function jShowsearch(n, o) {
     this.inputs = [];
     this.name = n;
     this.boxform = undefined;
+    this.tagform = undefined;
     this.btnUpdate = undefined;
     this.btnRemove = undefined;
     this.boxhome = undefined;
@@ -111,11 +112,11 @@ function jShowsearch(n, o) {
 ;
 jShowsearch.istance = {};
 jShowsearch.onclick = function (name, id) {
-    jShowsearch.istance[name].clearBox(id).after(id, jShowsearch.istance[name].elements[id].ob, jShowsearch.istance[name].boxform);
+    jShowsearch.istance[name].clearBox(id).after(id, jShowsearch.istance[name].elements[id].ob, jShowsearch.istance[name].tagform);
 };
 
 jShowsearch.removeAll = function (name) {
-    jShowsearch.istance[name].clearAllBox().after('removeAll', jShowsearch.istance[name].elements, jShowsearch.istance[name].boxform);
+    jShowsearch.istance[name].clearAllBox().after('removeAll', jShowsearch.istance[name].elements, jShowsearch.istance[name].tagform);
 };
 jShowsearch.prototype.clearAllBox = function () {
     var t__ = this;
@@ -347,8 +348,30 @@ jShowsearch.prototype.init = function (o) {
     if (o && typeof o.click === "function")
         t_.after = o.click;
     
-        
-    return t_.search(true).includeEvent();
+     
+    
+    return t_.searchForm().search(true).includeEvent();
+};
+jShowsearch.prototype.searchForm = function () {
+    var t__ = this;
+     if (null !== t__.boxform && typeof t__.boxform !== "undefined" && t__.boxform.tagName==="FORM")
+       t__.tagform=t__.boxform;  
+     else if (null !== t__.boxform && typeof t__.boxform !== "undefined" && t__.boxform.tagName!=="FORM") {
+        var x = t__.boxform.querySelectorAll('*') || t__.boxform.getElementsByTagName('*');
+        for (var i in x) {
+            switch (x[i].tagName) {
+                case 'FORM':
+               t__.tagform=x[i];
+                    break;
+            }
+        }
+    } 
+    else
+    {
+        window.console.error("jShowsearch searchForm:: l'elemento tagform risulta [ undefined ]");
+
+    }
+        return t__;
 };
 jShowsearch.prototype.setValue = function (o) {
     if (o && o.type) {
@@ -388,9 +411,8 @@ jShowsearch.prototype.setValue = function (o) {
 };
 jShowsearch.prototype.search = function (b) {
     var t__ = this;
-    if (null !== t__.boxform && typeof t__.boxform !== "undefined" &&
-            typeof t__.boxform.elements !== "undefined") {
-        var x = t__.boxform.elements;
+    if (null !== t__.boxform && typeof t__.boxform !== "undefined") {
+        var x = t__.boxform.elements || t__.boxform.querySelectorAll('*') || t__.boxform.getElementsByTagName('*');
         for (var i in x) {
             switch (x[i].tagName) {
                 case 'INPUT':
@@ -497,7 +519,7 @@ jShowsearch.prototype.write = function () {
             var tButton = String(t__.templateButton).replace("{box}", "jShowsearch='removeAll'").replace("{val}", "Rimuovi Filtri").replace("{click}", "onclick=jShowsearch.removeAll('" + t__.name + "')");
             if (null !== t__.boxButton && typeof t__.boxButton !== "undefined")
                 t__.boxButton.innerHTML = tButton;
-            else
+            else if (inputs.length>1)
                 inputs.push(tButton)
 
         }
