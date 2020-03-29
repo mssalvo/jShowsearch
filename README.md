@@ -7,4 +7,4 @@ jShowsearch
 <script src="/path/dist/core/jshowsearch.js"></script>
 ```
 
-* ## [Demo jPagevalid](https://mssalvo.github.io/jShowsearch/)
+* ## [Demo jShowsearch](https://mssalvo.github.io/jShowsearch/)
