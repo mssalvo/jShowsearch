@@ -12,11 +12,14 @@
  * 
  *           jShowsearch.get('myIstanceName', {
  *              form: '#myform', 
+ *              btnUpdate:'#btnAggiorna01',
+ *              btnRemove:'#btnRimuovi01',
  *              boxhome: '#home01',
  *              boxButton: '#button01',
  *              template: '#template01',
  *              templateButton:'<button {box} type="button" class="close" {click} aria-label="Close">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>',
  *              esclude: ['id_element_1','id_element_2'],
+ *              offEvent:false,
  *              click: function (id,ob,form) {
  *                  alert(id)
  *                    
@@ -28,6 +31,8 @@
  *  @Parameter
  *  {
  *     form:            |ID ELEMENTO | OBJECT HTML | OBBLIGATORIO | indicare l'elemento <form> o il <div> contenete gli elementi
+ *     btnUpdate:       |ID ELEMENTO | OBJECT HTML | FACOLTATIVO | indicare il button per aggiornare il contenuto visualizzato
+ *     btnRemove:       |ID ELEMENTO | OBJECT HTML | FACOLTATIVO | indicare il button per rimuovere i filtri nel contenuto visualizzato
  *     boxhome:         |ID ELEMENTO | OBJECT HTML | OBBLIGATORIO | indicare l'elemento html dove includere gli elementi creati
  *     boxButton:       |ID ELEMENTO | OBJECT HTML | FACOLTATIVO | indicare l'elemento html dove includere in pulsante rimuovi tutti filtri, 
  *                                                                 se non indicato ed e' presente un templateButton, questo verra' incluso come ultimo elemento nel boxhome.
@@ -35,6 +40,7 @@
  *     templateButton:  |STRING HTML | ID ELEMENTO | OBJECT HTML | FACOLTATIVO  | indicare l'elemento html o la stringa che descrive la struttura html del button rimuvi tutti
  *     esclude:         |STRING    | ARRAY  | FACOLTATIVO | esclude dalla lista degli elementi gli elementi indicati dall'id, 
  *                                                          gli elementi esclusi non verranno processati
+ *     offEvent:        |BOOLEAN TRUE/FALSE | FACOLTATIVO | (false)abilita / (true)disabilita gli eventi sui campi del form                                            
  *     click:           |FUNCTION | FACOLTATIVO | Esegue la funzione su ogni elemento con marcatore {click} 
  *                                                alla funzione nel costruttore viene iniettato l'id dell'elemento, l'elemeto, ed il form  
  *
@@ -89,6 +95,8 @@ function jShowsearch(n, o) {
     this.inputs = [];
     this.name = n;
     this.boxform = undefined;
+    this.btnUpdate = undefined;
+    this.btnRemove = undefined;
     this.boxhome = undefined;
     this.boxButton = undefined;
     this.template = undefined;
@@ -96,6 +104,7 @@ function jShowsearch(n, o) {
     this.after = function () {};
     this.esclude = undefined;
     this.isdelete = false;
+    this.offEvent = false;
     this.elements = {};
     this.init(o || {});
 }
@@ -248,7 +257,7 @@ jShowsearch.prototype.setTemplateButton = function (el) {
 
 jShowsearch.prototype.setBoxHome = function (el) {
     var t__ = this;
-    if (typeof el === "string" && el !== "undefined")
+    if (typeof el === "string" && el !== "undefined" && !/^<(\w*)\s*\/?(?:.* <\/\1>|)/.test(el))
         t__.boxhome = document.getElementById(el) || document.querySelector(el);
     else if (null !== el && typeof el === "object" && typeof el.jquery === "undefined")
         t__.boxhome = el;
@@ -262,7 +271,7 @@ jShowsearch.prototype.setBoxHome = function (el) {
 
 jShowsearch.prototype.setBoxButton = function (el) {
     var t__ = this;
-    if (typeof el === "string" && el !== "undefined")
+    if (typeof el === "string" && el !== "undefined" && !/^<(\w*)\s*\/?(?:.* <\/\1>|)/.test(el))
         t__.boxButton = document.getElementById(el) || document.querySelector(el);
     else if (null !== el && typeof el === "object" && typeof el.jquery === "undefined")
         t__.boxButton = el;
@@ -273,11 +282,38 @@ jShowsearch.prototype.setBoxButton = function (el) {
 
     return t__;
 };
+jShowsearch.prototype.setBtnUpdate = function (el) {
+    var t__ = this;
+    if (typeof el === "string" && el !== "undefined" && !/^<(\w*)\s*\/?(?:.* <\/\1>|)/.test(el))
+        t__.btnUpdate = document.getElementById(el) || document.querySelector(el);
+    else if (null !== el && typeof el === "object" && typeof el.jquery === "undefined")
+        t__.btnUpdate = el;
+    else if (null !== el && typeof el === "object" && typeof el.jquery === "string")
+        t__.btnUpdate = el.get(0);
+    else
+        window.console.warn("jShowsearch setBtnUpdate:: impossibile settare l'elemento btnUpdate[ " + el + " ]");
+
+    return t__;
+};
+ 
+jShowsearch.prototype.setBtnRemove = function (el) {
+    var t__ = this;
+    if (typeof el === "string" && el !== "undefined" && !/^<(\w*)\s*\/?(?:.* <\/\1>|)/.test(el))
+        t__.btnRemove = document.getElementById(el) || document.querySelector(el);
+    else if (null !== el && typeof el === "object" && typeof el.jquery === "undefined")
+        t__.btnRemove = el;
+    else if (null !== el && typeof el === "object" && typeof el.jquery === "string")
+        t__.btnRemove = el.get(0);
+    else
+        window.console.warn("jShowsearch setBtnRemove:: impossibile settare l'elemento btnRemove[ " + el + " ]");
+
+    return t__;
+};
 
 
 jShowsearch.prototype.form = function (el) {
     var t__ = this;
-    if (typeof el === "string" && el !== "undefined")
+    if (typeof el === "string" && el !== "undefined" && !/^<(\w*)\s*\/?(?:.* <\/\1>|)/.test(el))
         t__.boxform = document.getElementById(el) || document.querySelector(el);
     else if (null !== el && typeof el === "object" && typeof el.jquery === "undefined")
         t__.boxform = el;
@@ -296,6 +332,10 @@ jShowsearch.prototype.init = function (o) {
         t_.setBoxHome(o.boxhome);
     if (o && o.boxButton)
         t_.setBoxButton(o.boxButton);
+    if (o && o.btnUpdate)
+        t_.setBtnUpdate(o.btnUpdate);
+    if (o && o.btnRemove)
+        t_.setBtnRemove(o.btnRemove);
     if (o && o.template)
         t_.setTemplate(o.template);
     if (o && o.templateButton)
@@ -306,8 +346,9 @@ jShowsearch.prototype.init = function (o) {
         t_.esclude = o.esclude;
     if (o && typeof o.click === "function")
         t_.after = o.click;
-
-    return t_.search();
+    
+        
+    return t_.search(true).includeEvent();
 };
 jShowsearch.prototype.setValue = function (o) {
     if (o && o.type) {
@@ -345,7 +386,7 @@ jShowsearch.prototype.setValue = function (o) {
 
     return "undefined";
 };
-jShowsearch.prototype.search = function () {
+jShowsearch.prototype.search = function (b) {
     var t__ = this;
     if (null !== t__.boxform && typeof t__.boxform !== "undefined" &&
             typeof t__.boxform.elements !== "undefined") {
@@ -357,7 +398,8 @@ jShowsearch.prototype.search = function () {
                 case 'SELECT':
                     if (x[i].id) {
                         t__.elements[x[i].id] = {val: t__.setValue(x[i]), ob: x[i]};
-                        t__.add(x[i]);
+                        if(b)
+                          t__.add(x[i]);
                     }
 
                     break;
@@ -376,6 +418,8 @@ jShowsearch.prototype.search = function () {
                 case 'TD':
                     if (x[i].contentEditable && x[i].isContentEditable) {
                         t__.elements[x[i].id] = {val: x[i].innerHTML, ob: x[i]};
+                       if(b)
+                        t__.add(x[i]);
                     }
                     break;
             }
@@ -391,7 +435,32 @@ jShowsearch.prototype.search = function () {
     }
 
 };
-
+jShowsearch.prototype.includeEvent = function () {
+    var t__ = this;
+    if (null!==t__.btnUpdate && typeof t__.btnUpdate !== "undefined") {
+          t__.btnUpdate.addEventListener('click', function () {
+                t__.search(0);
+            }, false);
+        
+    }
+    if (null!==t__.btnRemove && typeof t__.btnRemove !== "undefined") {
+        
+          t__.btnRemove.addEventListener('click', function () {
+                t__.clearAllBox();
+            }, false);
+    }
+    
+    if(!this.offEvent && t__.inputs.length)
+    {
+      for(var i in t__.inputs)  
+      t__.inputs[i].addEventListener('change', function () {
+                t__.search(0);
+            }, false);  
+    }
+    
+    
+    return t__;
+};
 jShowsearch.prototype.clear = function () {
     var t__ = this;
     if (typeof t__.esclude !== "undefined") {
