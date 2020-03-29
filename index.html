@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>jShowsearch</title>
+        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -18,7 +18,7 @@ and open the template in the editor.
         
         <style>
             body {
-    padding-top: 50px;
+    padding: 40px;
 }
 .dropdown.dropdown-lg .dropdown-menu {
     margin-top: -1px;
@@ -109,17 +109,17 @@ and open the template in the editor.
             </div>
           </div>
         </div>
-            <div id="boxResult" class="row">
-                
-            </div>     
+      
 	</div>
+        <div class="container" style="padding-top:15px">  
+        <div id="boxResult" class="btn-group"> 
+                
+        </div>
+       </div>     
        <template id="template01">
-            <div {box} class="col alert alert-primary alert-dismissible fade show" role="alert" style="margin-left:7px;background-color: #0452a5;">
-                <strong style="color:#ffffff;">{val}</strong>
-            <button type="button" class="close"  {click} aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>   
+         <button {box} type="button" {click} class="btn btn-default" style="background-color: #0452a5;margin-left:8px;color:#ffffff">{val}
+	<span aria-hidden="true">&times;</span>&nbsp;
+        </button>  
         </template>
         <script type="text/javascript">
 
@@ -130,7 +130,7 @@ and open the template in the editor.
                 boxhome: '#boxResult',
                // boxButton: '#button01',
                 template: '#template01',
-                templateButton:'<button {box} type="button" class="close" {click} aria-label="Close">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>',
+                templateButton:'<button {box} type="button" class="btn btn-danger" {click} aria-label="Close" style="margin-left:10px;color:#ffffff">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>',
                 esclude: ['702','id234'],
                 offEvent:false,
                 click: function (id,obs,form) {
