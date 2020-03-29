@@ -74,8 +74,9 @@ Importante il templateButton indicato sia di tipo html o stringa deve contenere 
   {val}   > va inserito dove deve comparire it testo descrittivo
   {click} > va inserito sull'elemento che deve eseguire l'azione              
   ```
+ ```html
   <button {box} type="button" class="close" {click} aria-label="Close">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>
-
+```
 
 
  ## License
