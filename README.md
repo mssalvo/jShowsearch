@@ -48,17 +48,35 @@ jShowsearch.get('myIstanceName', {
             })
 
 ```
+## Esempio dichiarazione template
+ Importante il template indicato sia di tipo html o stringa deve contenere i seguenti marcatori **{box} , {val} , {click}**
+ ```
+    {box}  > va inserito sull'elemento principale della struttura html
+    {val}   > va inserito dove deve comparire it testo descrittivo
+    {click} > va inserito sull'elemento che deve eseguire l'azione
+  ```
+ ##
  
-
 ```html
 
  <template id="template01">
-         <button {box} type="button" {click} class="btn btn-default" style="background-color: #0452a5;margin-left:8px;color:#ffffff">{val}
+         <button {box} type="button" {click} class="btn btn-default" style="background-color: #0452a5;margin-left:8px;color:#ffffff">  {val}
 	<span aria-hidden="true">&times;</span>&nbsp;
         </button>  
 </template>
 
 ```
+
+ ## Esempio dichiarazione templateButton
+Importante il templateButton indicato sia di tipo html o stringa deve contenere  i seguenti marcatori **{box} , {val} , {click}**  
+```      
+  {box}   > va inserito sull'elemento principale della struttura html
+  {val}   > va inserito dove deve comparire it testo descrittivo
+  {click} > va inserito sull'elemento che deve eseguire l'azione              
+  ```
+  <button {box} type="button" class="close" {click} aria-label="Close">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>
+
+
 
  ## License
 
