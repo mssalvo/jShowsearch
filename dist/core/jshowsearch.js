@@ -1,4 +1,4 @@
-/**
+/*!
  * jShowsearch v1.0.0 ©
  * @author salvo mariniello - salvo.mariniello@gmail.com 
  * https://github.com/mssalvo/jShowsearch
