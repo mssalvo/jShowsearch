@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>jShowsearch</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+        <script src="dist/core/jshowsearch.js"></script>
+        
+        <style>
+            body {
+    padding-top: 50px;
+}
+.dropdown.dropdown-lg .dropdown-menu {
+    margin-top: -1px;
+    padding: 6px 20px;
+}
+.input-group-btn .btn-group {
+    display: flex !important;
+}
+.btn-group .btn {
+    border-radius: 0;
+    margin-left: -1px;
+}
+.btn-group .btn:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.btn-group .form-horizontal .btn[type="submit"] {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.form-horizontal .form-group {
+    margin-left: 0;
+    margin-right: 0;
+}
+.form-group .form-control:last-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+@media screen and (min-width: 768px) {
+    #adv-search {
+        width: 500px;
+        margin: 0 auto;
+    }
+    .dropdown.dropdown-lg {
+        position: static !important;
+    }
+    .dropdown.dropdown-lg .dropdown-menu {
+        min-width: 500px;
+    }
+}
+            
+        </style>
+        
+    </head>
+    <body>
+        <div>jShowsearch Example</div>
+ 
+        
+        <div class="container">
+	<div class="row">
+	<div class="col-md-12">
+            <div id="boxHome" class="input-group" id="adv-search">
+                <input id="filter01" type="text" class="col-md-12 form-control" placeholder="Search for snippets" />
+                <div class="input-group-btn">
+                    <div class="btn-group" role="group">
+                        <div class="dropdown dropdown-lg">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                <form id="formHome" class="form-horizontal" role="form">
+                                  <div class="form-group">
+                                    <label for="filter">Filter by</label>
+                                    <select id="filter02" class="form-control">
+                                        <option value="" >----</option> 
+                                        <option value="0">All Snippets</option>
+                                        <option value="1">Featured</option>
+                                        <option value="2">Most popular</option>
+                                        <option value="3">Top rated</option>
+                                        <option value="4">Most commented</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="contain">Author</label>
+                                    <input id="filter03" class="form-control" type="text" />
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="contain">Contains the words</label>
+                                    <input id="filter04" class="form-control" type="text" />
+                                  </div>
+                                   
+                                </form>
+                            </div>
+                        </div>
+                        <button id="btnSearch" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true">Search</span></button>
+                        <button id="btnRemove" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true">Remove Filter</span></button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+            <div id="boxResult" class="row">
+                
+            </div>     
+	</div>
+       <template id="template01">
+            <div {box} class="col alert alert-primary alert-dismissible fade show" role="alert" style="margin-left:7px;background-color: #0452a5;">
+                <strong style="color:#ffffff;">{val}</strong>
+            <button type="button" class="close"  {click} aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>   
+        </template>
+        <script type="text/javascript">
+
+            jShowsearch.get('myIstanceName', {
+                form: '#boxHome',
+                btnUpdate:'#btnSearch',
+                btnRemove:'#btnRemove',
+                boxhome: '#boxResult',
+               // boxButton: '#button01',
+                template: '#template01',
+                templateButton:'<button {box} type="button" class="close" {click} aria-label="Close">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>',
+                esclude: ['702','id234'],
+                offEvent:false,
+                click: function (id,obs,form) {
+                    alert(id)
+                    
+                     //form.submit();
+                }
+            })
+
+
+        </script> 
+    </body>
+</html>
