@@ -1,5 +1,6 @@
 # jShowsearch
-jShowsearch
+jShowsearch, Evidenza il valore digitato o selezionato nei campi ricerca di un form o altro!
+
 # Getting Started
 
 1. Includi jShowsearch sulla tua pagina prima della chiusura tag </body> 
