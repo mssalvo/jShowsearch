@@ -509,9 +509,9 @@ jShowsearch.prototype.write = function () {
         for (var h in t__.elements)
         {
 
-            if (t__.elements[h].val.trim() !== "")
-                inputs.push(String(templ).replace("{box}", "jShowsearch='" + h + "'").replace("{val}", t__.elements[h].val).replace("{click}", "onclick=jShowsearch.onclick('" + t__.name + "','" + h + "')"))
-
+            if (t__.elements[h].val.trim() !== "") 
+                inputs.push(String(templ).replace("{box}", "jShowsearch='" + h + "'").replace("{val}", t__.elements[h].val).replace("{click}", "onclick=\"jShowsearch.onclick('" + t__.name + "','" + h + "')\""))
+           
         }
 
         if (inputs.length && null !== t__.templateButton && typeof t__.templateButton !== "undefined")
