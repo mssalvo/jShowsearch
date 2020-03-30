@@ -516,7 +516,7 @@ jShowsearch.prototype.write = function () {
 
         if (inputs.length && null !== t__.templateButton && typeof t__.templateButton !== "undefined")
         {
-            var tButton = String(t__.templateButton).replace("{box}", "jShowsearch='removeAll'").replace("{val}", "Rimuovi Filtri").replace("{click}", "onclick=jShowsearch.removeAll('" + t__.name + "')");
+            var tButton = String(t__.templateButton).replace("{box}", "jShowsearch='removeAll'").replace("{val}", "Rimuovi Filtri").replace("{click}", "onclick=\"jShowsearch.removeAll('" + t__.name + "')\"");
             if (null !== t__.boxButton && typeof t__.boxButton !== "undefined")
                 t__.boxButton.innerHTML = tButton;
             else if (inputs.length>1)
