@@ -1,5 +1,5 @@
 # jShowsearch
-jShowsearch, Evidenzia il valore digitato o selezionato nei campi ricerca di un form o di una determinata area html!
+jShowsearch, Evidenzia il valore editato, selezionato nei campi di ricerca form, o da una determinata area html!
 
 # Getting Started
 
