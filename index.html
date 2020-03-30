@@ -127,9 +127,9 @@ and open the template in the editor.
                 
         </div>
        </div>     
-       <template id="template01">
-         <button {box} type="button" {click} class="btn btn-default" style="background-color: #0452a5;margin-left:8px;color:#ffffff">{val}
-	<span aria-hidden="true">&times;</span>&nbsp;
+ 	<template id="template01">
+         <button {box} type="button" {click} class="btn btn-default" style="background-color: #0452a5;margin:5px 0px 0px 8px;border-radius: 5px;color:#ffffff">{val}
+	&nbsp;<span aria-hidden="true">&times;</span>
         </button>  
         </template>
         <script type="text/javascript">
@@ -141,7 +141,7 @@ and open the template in the editor.
                 boxhome: '#boxResult',
                // boxButton: '#button01',
                 template: '#template01',
-                templateButton:'<button {box} type="button" class="btn btn-danger" {click} aria-label="Close" style="margin-left:10px;color:#ffffff">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>',
+                templateButton:'<button {box} type="button" class="btn btn-danger" {click} aria-label="Close" style="margin:5px 0px 0px 8px;border-radius: 5px;color:#ffffff">Rimuovi Filtri &nbsp;<span>&times;</span></button>',
                 esclude: ['702','id234'],
                 offEvent:false,
                 click: function (id,obs,form) {
