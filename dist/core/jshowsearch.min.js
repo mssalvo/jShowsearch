@@ -11,7 +11,7 @@
  * @example istance
  * 
  *           jShowsearch.get('myIstanceName', {
- *              form: '#myform', 
+ *              app: '#myform', 
  *              btnSearch:'#btnAggiorna01',
  *              btnRemoveAll:'#btnRimuovi01',
  *              boxhome: '#home01',
