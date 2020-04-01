@@ -131,19 +131,34 @@
         <script type="text/javascript">
 
             jShowsearch.get('myIstanceName', {
-                form: '#boxHome',
-                btnUpdate:'#btnSearch',
-                btnRemove:'#btnRemove',
+                app: '#boxHome',
+                btnSearch:'#btnSearch',
+                btnRemoveAll:'#btnRemove',
                 boxhome: '#boxResult',
                // boxButton: '#button01',
                 template: '#template01',
                 templateButton:'<button {box} type="button" class="btn btn-danger" {click} aria-label="Close" style="margin:5px 0px 0px 8px;border-radius: 5px;color:#ffffff">Rimuovi Filtri &nbsp;<span>&times;</span></button>',
                 esclude: ['702','id234'],
                 offEvent:false,
-                click: function (id,obs,form) {
-                    alert(id)
-                    
-                     //form.submit();
+                offStorage:false,
+                onInit: function (bol,list,form) {  
+                   // this.submit(); 
+                },
+                onRemove: function (id,obj,form) {
+                //alert(this.form.id)
+                 alert('id element: '+id)
+                },
+                onRemoveAll: function (list,form) {  
+                   var arry=[];
+                 for(i in this.inputs)
+                  arry.push({id:this.inputs[i].id,tagType:this.inputs[i].type})
+                   
+                 alert(JSON.stringify(arry)) 
+             
+                },
+                onSearch: function (list,form) { 
+                    this.submit();  
+                    alert('id form: '+this.form.id) 
                 }
             })
 

@@ -14,7 +14,7 @@ jShowsearch, Evidenzia il valore editato, selezionato nei campi di ricerca form,
 
 ```js
 jShowsearch.get('myIstanceName', {
-                form: '#formId',
+                app: '#formId',
                 boxhome: '#boxResult',
                 template: '<button {box} type="button" {click} class="btn btn-default"> {val} <span>&times;</span></button>'
             })
@@ -24,16 +24,21 @@ jShowsearch.get('myIstanceName', {
 
 Proprieta | Type | - | Descrizione  
 ------- | ------- | ------- | -------
-**form** |ID ELEMENTO / OBJECT HTML | OBBLIGATORIO | indicare l'elemento <form> o il <div> contenete gli elementi
+**app** |ID ELEMENTO / OBJECT HTML | OBBLIGATORIO | indicare l'elemento <form> o il <div> contenete gli elementi
 **boxhome**   |ID ELEMENTO / OBJECT HTML | OBBLIGATORIO | indicare l'elemento html dove includere gli elementi creati
 **template**  |STRING HTML / ID ELEMENTO / OBJECT HTML | OBBLIGATORIO | indicare l'elemento html o la stringa che descrive la struttura html del template	
-**btnUpdate** |ID ELEMENTO / OBJECT HTML | FACOLTATIVO | indicare il button per aggiornare il contenuto visualizzato
-**btnRemove** |ID ELEMENTO / OBJECT HTML | FACOLTATIVO | indicare il button per rimuovere i filtri nel contenuto visualizzato
+**btnSearch** |ID ELEMENTO / OBJECT HTML | FACOLTATIVO | indicare il button per aggiornare il contenuto visualizzato
+**btnRemoveAll** |ID ELEMENTO / OBJECT HTML | FACOLTATIVO | indicare il button per rimuovere i filtri nel contenuto visualizzato
 **boxButton** |ID ELEMENTO / OBJECT HTML | FACOLTATIVO | indicare l'elemento html dove includere in pulsante rimuovi tutti filtri, se non indicato ed e' presente un templateButton, questo verra' incluso come ultimo elemento nel boxhome.
 **templateButton** |STRING HTML / ID ELEMENTO / OBJECT HTML | FACOLTATIVO  | indicare l'elemento html o la stringa che descrive la struttura html del button rimuvi tutti
 **esclude** 	|STRING / ARRAY  | FACOLTATIVO | esclude dalla lista degli elementi gli elementi indicati dall'id, gli elementi esclusi non verranno processati
-**offEvent**  |BOOLEAN TRUE/FALSE | FACOLTATIVO | (false)abilita / (true)disabilita gli eventi sui campi del form 
-**click** |FUNCTION | FACOLTATIVO | Esegue la funzione su ogni elemento con marcatore {click}  alla funzione nel costruttore viene iniettato l'id dell'elemento, l'elemeto, ed il form 
+**offEvent**  |BOOLEAN TRUE/FALSE | FACOLTATIVO | (false)abilita / (true)disabilita gli eventi sui campi del form     
+**offStorage** |BOOLEAN TRUE/FALSE | FACOLTATIVO | (false)abilita / (true)disabilita memorizzazione dei dati                                            
+**onInit**	|FUNCTION | FACOLTATIVO | Esegue la funzione 1 sola volta alla fine della creazione
+**onRemove**	|FUNCTION | FACOLTATIVO | Esegue la funzione su ogni elemento con marcatore `{click}` 
+**onRemoveAll**	|FUNCTION | FACOLTATIVO | Esegue la funzione sul pulsante indicato ` btnRemoveAll `
+**onSearch**	|FUNCTION | FACOLTATIVO | Esegue la funzione sul pulsante indicato ` btnSearch `
+
 
 
 
@@ -41,20 +46,35 @@ Proprieta | Type | - | Descrizione
 
 ```js
 
-jShowsearch.get('myIstanceName', {
-                form: '#boxHome',
-                btnUpdate:'#btnSearch',
-                btnRemove:'#btnRemove',
+           jShowsearch.get('myIstanceName', {
+                app: '#boxHome',
+                btnSearch:'#btnSearch',
+                btnRemoveAll:'#btnRemove',
                 boxhome: '#boxResult',
                // boxButton: '#button01',
                 template: '#template01',
-                templateButton:'<button {box} type="button" class="btn btn-danger" {click} aria-label="Close" style="margin-left:10px;color:#ffffff">Rimuovi Filtri <span aria-hidden="true">&times;</span></button>',
+                templateButton:'<button {box} type="button" class="btn btn-danger" {click} aria-label="Close" style="margin:5px 0px 0px 8px;border-radius: 5px;color:#ffffff">Rimuovi Filtri &nbsp;<span>&times;</span></button>',
                 esclude: ['702','id234'],
                 offEvent:false,
-                click: function (id,obs,form) {
-                    alert(id)
-                    
-                     //form.submit();
+                offStorage:false,
+                onInit: function (bol,list,form) {  
+                   // this.submit(); 
+                },
+                onRemove: function (id,obj,form) {
+                //alert(this.form.id)
+                 alert('id element: '+id)
+                },
+                onRemoveAll: function (list,form) {  
+                   var arry=[];
+                 for(i in this.inputs)
+                  arry.push({id:this.inputs[i].id,tagType:this.inputs[i].type})
+                   
+                 alert(JSON.stringify(arry)) 
+             
+                },
+                onSearch: function (list,form) { 
+                    this.submit();  
+                    alert('id form: '+this.form.id) 
                 }
             })
 
