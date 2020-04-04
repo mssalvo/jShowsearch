@@ -131,8 +131,8 @@
         </button>  
         </template>
         <script type="text/javascript">
-
-            jShowsearch.get('myIstanceName', {
+             // istanzia per form 1  
+            jShowsearch.get('myIstanceName1', {
                 app: '#boxHome',
                 btnSearch:'#btnSearch',
                 btnRemoveAll:'#btnRemove',
@@ -247,8 +247,8 @@
     </div>
         
            <script type="text/javascript">
-
-            jShowsearch.get('ricercaDue', {
+            // nuova istanzia per form due     
+            jShowsearch.get('myformricerca2', {
                 app: '#formRicercaDue',
                 btnSearch:'#btnSearchDue',
                // btnRemoveAll:'#btnRemove',
@@ -271,7 +271,7 @@
                  for(i in this.inputs)
                   arry.push({id:this.inputs[i].id,tagType:this.inputs[i].type})
                    
-                 alert(JSON.stringify(arry)) 
+                // alert(JSON.stringify(arry)) 
              
                 },
                 onSearch: function (list,form) { 
