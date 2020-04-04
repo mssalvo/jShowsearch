@@ -413,10 +413,24 @@ jShowsearch.prototype.setValue = function (o) {
                 return o.value || "";
             case 'CHECKBOX':
             case 'RADIO':
-                if (o.parentElement.htmlFor && o.parentElement.htmlFor === o.id || o.parentElement.htmlFor === o.name)
+                if (o.labels && o.labels[0] && typeof o.labels[0].htmlFor!=="undefined" && o.labels[0].htmlFor === o.id 
+                        || o.labels && o.labels[0] && typeof o.labels[0].htmlFor!=="undefined" && o.labels[0].htmlFor === o.name)
+                {
+                    return o.checked ? o.labels[0].innerText : "";
+                }
+                  if (o.previousElementSibling && o.previousElementSibling.tagName.toUpperCase()==="LABEL")
+                {
+                    return o.checked ? o.previousElementSibling.innerText : "";
+                }
+                if (o.nextElementSibling && o.nextElementSibling.tagName.toUpperCase()==="LABEL")
+                {
+                    return o.checked ? o.nextElementSibling.innerText : "";
+                }
+                if (o.parentElement && o.parentElement.tagName.toUpperCase()==="LABEL")
                 {
                     return o.checked ? o.parentElement.innerText : "";
-                } else
+                }
+                else 
                 {
                     return o.checked ? o.value : "";
                 }
