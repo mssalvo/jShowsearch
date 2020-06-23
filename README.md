@@ -80,9 +80,10 @@ Proprieta | Type | - | Descrizione
 
 ```
 ## Esempio dichiarazione template
- Importante il template indicato sia di tipo html o stringa deve contenere i seguenti marcatori **{box} , {val} , {click}**
+ Importante il template indicato sia di tipo html o stringa deve contenere i seguenti marcatori **{box} , {label} , {val} , {click}**
  ```
     {box}  > va inserito sull'elemento principale della struttura html
+    {label} > va inserito dove deve comparire la label decrittiva se presente l'attribute [ data-js-label ]
     {val}   > va inserito dove deve comparire it testo descrittivo
     {click} > va inserito sull'elemento che deve eseguire l'azione
   ```
@@ -91,7 +92,7 @@ Proprieta | Type | - | Descrizione
 ```html
 
  <template id="template01">
-         <button {box} type="button" {click} class="btn btn-default" style="background-color: #0452a5;margin-left:8px;color:#ffffff">  {val}
+         <button {box} type="button" {click} class="btn btn-default" style="background-color: #0452a5;margin-left:8px;color:#ffffff"> <span>{label}</span> {val}
 	<span aria-hidden="true">&times;</span>&nbsp;
         </button>  
 </template>
