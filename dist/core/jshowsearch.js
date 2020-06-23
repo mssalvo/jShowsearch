@@ -53,14 +53,15 @@
  *  
  *  @example Dichiarazione template
  *  @Importante il template indicato sia di tipo html o stringa deve contenere
- *              i seguenti marcatori {box} , {val} , {click}
+ *              i seguenti marcatori {box} , {label}, {val} , {click}
  *     {box}   > va inserito sull'elemento principale della struttura html
- *     {val}   > va inserito dove deve comparire it testo descrittivo
+ *     {label} > va inserito dove deve comparire la label decrittiva se presente l'attribute [ data-js-label ]
+ *     {val}   > va inserito dove deve comparire il testo descrittivo
  *     {click} > va inserito sull'elemento che deve eseguire l'azione
  *     
  *  	<template id="template01">
  *	<div {box} class="col alert alert-primary alert-dismissible fade show" role="alert">
- *		<strong> {val} </strong>
+ *		<strong> {label} </strong> <strong> {val} </strong>
  *	<button type="button" class="close"  {click} aria-label="Close">
  *	  <span aria-hidden="true">&times;</span>
  *	</button>
@@ -564,7 +565,14 @@ jShowsearch.prototype.isElementVisible= function(elem) {
             if (style.opacity < 0.1) return false;
              return true;
 };
-
+jShowsearch.prototype.dataLabel= function(ob) {
+   
+    if(typeof ob ==="undefined") return "";
+    if(typeof ob.getAttribute('data-js-label')!=="undefined" && ob.getAttribute('data-js-label')!==null)
+        return ob.getAttribute('data-js-label');
+    else
+    return "";
+ };
 jShowsearch.prototype.write = function () {
     var t__ = this;
 
@@ -578,7 +586,7 @@ jShowsearch.prototype.write = function () {
         {
 
             if (t__.elements[h].val.trim() !== "") {
-                inputs.push(String(templ).replace(/\=""/g, "").replace(/\{box}/g, "showsearch=\"" + h + "\"").replace(/\{val}/g, t__.elements[h].val).replace(/\{click}/g, "onclick=\"jShowsearch.removeBox('" + t__.name + "','" + h + "')\""))
+                inputs.push(String(templ).replace(/\=""/g, "").replace(/\{box}/g, "showsearch=\"" + h + "\"").replace(/\{label}/g, t__.dataLabel(t__.elements[h].ob)).replace(/\{val}/g, t__.elements[h].val).replace(/\{click}/g, "onclick=\"jShowsearch.removeBox('" + t__.name + "','" + h + "')\""))
             }
         }
 
